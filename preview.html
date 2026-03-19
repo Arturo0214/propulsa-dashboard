@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Propulsa — AI Agency Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   PROPULSA — AI Agency Dashboard
+   Professional Dark Theme
+   ═══════════════════════════════════════════ */
+
+:root {
+  --bg-base: #09090b;
+  --bg-surface: #111113;
+  --bg-elevated: #18181b;
+  --bg-card: rgba(24, 24, 27, 0.7);
+  --bg-card-hover: rgba(39, 39, 42, 0.6);
+  --bg-glass: rgba(255, 255, 255, 0.03);
+  --border: rgba(255, 255, 255, 0.06);
+  --border-hover: rgba(255, 255, 255, 0.1);
+  --border-accent: rgba(99, 102, 241, 0.3);
+  --text-primary: #fafafa;
+  --text-secondary: #a1a1aa;
+  --text-muted: #52525b;
+  --accent: #6366f1;
+  --accent-light: #818cf8;
+  --emerald: #10b981;
+  --amber: #f59e0b;
+  --rose: #f43f5e;
+  --cyan: #06b6d4;
+  --violet: #8b5cf6;
+  --gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
+  --gradient-emerald: linear-gradient(135deg, #059669, #10b981);
+  --gradient-amber: linear-gradient(135deg, #d97706, #f59e0b);
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.4);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.5);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.6);
+  --shadow-glow: 0 0 40px rgba(99,102,241,0.08);
+  --r-xs: 6px;
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 20px;
+  --sidebar-w: 260px;
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg-base);
+  color: var(--text-primary);
+  line-height: 1.5;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ===== AMBIENT GLOW ===== */
+.ambient {
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+}
+.ambient-1 {
+  top: -300px; right: -200px;
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(99,102,241,0.06) 0%, transparent 65%);
+}
+.ambient-2 {
+  bottom: -300px; left: -200px;
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(139,92,246,0.04) 0%, transparent 65%);
+}
+
+/* ═══════ LAYOUT ═══════ */
+.layout { display: flex; min-height: 100vh; position: relative; z-index: 1; }
+
+/* ═══════ SIDEBAR ═══════ */
+.sidebar {
+  width: var(--sidebar-w);
+  background: var(--bg-surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  z-index: 50;
+  overflow-y: auto;
+}
+
+.sidebar-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 0;
+}
+
+/* Logo area */
+.sidebar-logo {
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.logo-mark {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.logo-icon {
+  width: 36px; height: 36px;
+  border-radius: 9px;
+  background: var(--gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(99,102,241,0.3);
+}
+.logo-icon svg { width: 18px; height: 18px; }
+.logo-text {
+  display: flex;
+  flex-direction: column;
+}
+.logo-text h1 {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.logo-text span {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+/* Nav */
+.sidebar-nav {
+  flex: 1;
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.nav-section {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+  padding: 20px 10px 8px;
+}
+.nav-section:first-child { padding-top: 4px; }
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: var(--r-sm);
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  transition: all 0.15s ease;
+  position: relative;
+  font-family: var(--font);
+}
+.nav-item:hover {
+  color: var(--text-primary);
+  background: rgba(255,255,255,0.04);
+}
+.nav-item.active {
+  color: var(--text-primary);
+  background: rgba(99,102,241,0.1);
+}
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: -12px; top: 50%;
+  transform: translateY(-50%);
+  width: 3px; height: 16px;
+  border-radius: 0 3px 3px 0;
+  background: var(--accent);
+}
+.nav-icon {
+  width: 18px; height: 18px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+.nav-item.active .nav-icon { opacity: 1; }
+.nav-emoji {
+  font-size: 14px;
+  width: 18px;
+  text-align: center;
+  flex-shrink: 0;
+}
+.nav-badge {
+  margin-left: auto;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 10px;
+  background: rgba(99,102,241,0.15);
+  color: var(--accent-light);
+}
+
+/* Sidebar footer */
+.sidebar-footer {
+  padding: 12px 16px 16px;
+  border-top: 1px solid var(--border);
+}
+.user-block {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  border-radius: var(--r-sm);
+  transition: background 0.15s;
+  cursor: pointer;
+}
+.user-block:hover { background: rgba(255,255,255,0.03); }
+.user-avatar {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--gradient);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: white;
+  flex-shrink: 0;
+}
+.user-meta h4 { font-size: 12px; font-weight: 600; line-height: 1.3; }
+.user-meta span { font-size: 10px; color: var(--text-muted); }
+
+/* ═══════ MAIN CONTENT ═══════ */
+.main {
+  flex: 1;
+  margin-left: var(--sidebar-w);
+  padding: 32px 40px;
+  max-width: calc(100vw - var(--sidebar-w));
+}
+
+/* Page header */
+.page-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  gap: 16px;
+}
+.page-header-text h2 {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+.page-header-text p {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+.header-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: var(--r-sm);
+  font-size: 12px;
+  font-weight: 600;
+  font-family: var(--font);
+  cursor: pointer;
+  transition: all 0.15s;
+  border: none;
+  white-space: nowrap;
+}
+.btn-primary {
+  background: var(--accent);
+  color: white;
+}
+.btn-primary:hover {
+  background: var(--accent-light);
+  box-shadow: 0 4px 16px rgba(99,102,241,0.3);
+}
+.btn-ghost {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+.btn-ghost:hover {
+  background: rgba(255,255,255,0.04);
+  color: var(--text-primary);
+  border-color: var(--border-hover);
+}
+
+/* ═══════ STATS ROW ═══════ */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 20px;
+  backdrop-filter: blur(12px);
+  transition: all 0.2s ease;
+  animation: fadeUp 0.45s ease both;
+}
+.stat-card:nth-child(1) { animation-delay: 0.0s; }
+.stat-card:nth-child(2) { animation-delay: 0.06s; }
+.stat-card:nth-child(3) { animation-delay: 0.12s; }
+.stat-card:nth-child(4) { animation-delay: 0.18s; }
+.stat-card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-glow);
+}
+.stat-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.stat-icon-box {
+  width: 36px; height: 36px;
+  border-radius: var(--r-sm);
+  display: flex; align-items: center; justify-content: center;
+}
+.stat-icon-box svg { width: 18px; height: 18px; }
+.stat-trend {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.stat-trend.up { background: rgba(16,185,129,0.1); color: var(--emerald); }
+.stat-trend.neutral { background: rgba(82,82,91,0.3); color: var(--text-secondary); }
+.stat-value {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -1.2px;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.stat-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* ═══════ SECTION HEADER ═══════ */
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.section-head h3 {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+}
+.section-link {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--accent-light);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.15s;
+}
+.section-link:hover { color: var(--text-primary); }
+
+/* ═══════ BUSINESS CARDS ═══════ */
+.biz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.biz-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 0;
+  backdrop-filter: blur(12px);
+  transition: all 0.25s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  animation: fadeUp 0.5s ease both;
+}
+.biz-card:nth-child(1) { animation-delay: 0.08s; }
+.biz-card:nth-child(2) { animation-delay: 0.14s; }
+.biz-card:nth-child(3) { animation-delay: 0.20s; }
+.biz-card:nth-child(4) { animation-delay: 0.26s; }
+
+.biz-card-accent {
+  height: 3px;
+  width: 100%;
+  opacity: 0.6;
+  transition: opacity 0.25s;
+}
+.biz-card:hover .biz-card-accent { opacity: 1; }
+.biz-card:hover {
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+}
+.biz-card-body { padding: 20px 22px 22px; }
+.biz-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.biz-icon {
+  width: 46px; height: 46px;
+  border-radius: var(--r-md);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 20px;
+}
+.badge-active { background: rgba(16,185,129,0.1); color: var(--emerald); }
+.badge-dev { background: rgba(245,158,11,0.1); color: var(--amber); }
+.badge-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.biz-name {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  margin-bottom: 4px;
+}
+.biz-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+.biz-footer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+.biz-metric {
+  text-align: center;
+  padding: 6px 0;
+}
+.biz-metric-val {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+}
+.biz-metric-lbl {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+
+/* Add card */
+.add-card {
+  background: transparent;
+  border: 1.5px dashed rgba(255,255,255,0.08);
+  border-radius: var(--r-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
+  cursor: pointer;
+  transition: all 0.25s;
+  gap: 10px;
+  animation: fadeUp 0.5s ease both;
+  animation-delay: 0.32s;
+}
+.add-card:hover {
+  border-color: rgba(99,102,241,0.3);
+  background: rgba(99,102,241,0.03);
+}
+.add-icon {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: 1.5px dashed var(--text-muted);
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.25s;
+}
+.add-card:hover .add-icon {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.add-icon svg { width: 18px; height: 18px; color: var(--text-muted); }
+.add-card:hover .add-icon svg { color: var(--accent); }
+.add-card p { font-size: 13px; font-weight: 500; color: var(--text-secondary); }
+.add-card small { font-size: 11px; color: var(--text-muted); }
+
+/* ═══════ BOTTOM GRID ═══════ */
+.bottom-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 16px;
+}
+
+/* Chart */
+.chart-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 22px 24px;
+  backdrop-filter: blur(12px);
+  animation: fadeUp 0.5s ease both;
+  animation-delay: 0.35s;
+}
+.chart-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.chart-head h4 { font-size: 14px; font-weight: 700; }
+.chart-legend {
+  display: flex; align-items: center; gap: 12px;
+}
+.chart-legend-item {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 11px; color: var(--text-muted);
+}
+.chart-legend-dot {
+  width: 8px; height: 8px; border-radius: 2px;
+}
+.chart-area {
+  position: relative;
+  height: 200px;
+  display: flex;
+  align-items: flex-end;
+  gap: 0;
+  padding-left: 36px;
+}
+.chart-y-axis {
+  position: absolute;
+  left: 0; top: 0; bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 32px;
+}
+.chart-y-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-align: right;
+  padding-right: 6px;
+}
+.chart-grid-lines {
+  position: absolute;
+  left: 36px; right: 0; top: 0; bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  pointer-events: none;
+}
+.chart-grid-line {
+  width: 100%;
+  height: 1px;
+  background: var(--border);
+}
+.chart-bars-container {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  flex: 1;
+  height: calc(100% - 24px);
+  z-index: 1;
+}
+.chart-bar-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  height: 100%;
+  justify-content: flex-end;
+}
+.chart-bar {
+  width: 100%;
+  max-width: 40px;
+  border-radius: 6px 6px 2px 2px;
+  transition: all 0.3s ease;
+  position: relative;
+  min-height: 4px;
+}
+.chart-bar:hover {
+  filter: brightness(1.2);
+}
+.chart-bar::after {
+  content: attr(data-value);
+  position: absolute;
+  top: -20px; left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  opacity: 0;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+}
+.chart-bar:hover::after { opacity: 1; }
+.chart-bar-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* Activity */
+.activity-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+  animation: fadeUp 0.5s ease both;
+  animation-delay: 0.42s;
+  display: flex;
+  flex-direction: column;
+}
+.activity-head {
+  padding: 18px 20px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.activity-head h4 { font-size: 14px; font-weight: 700; }
+.activity-list { flex: 1; }
+.activity-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px;
+  border-top: 1px solid var(--border);
+  transition: background 0.15s;
+}
+.activity-row:hover { background: rgba(255,255,255,0.02); }
+.act-indicator {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.act-indicator.success { background: var(--emerald); box-shadow: 0 0 6px rgba(16,185,129,0.3); }
+.act-indicator.info { background: var(--cyan); box-shadow: 0 0 6px rgba(6,182,212,0.3); }
+.act-indicator.warning { background: var(--amber); box-shadow: 0 0 6px rgba(245,158,11,0.3); }
+.act-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.act-source {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  flex-shrink: 0;
+}
+.act-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.act-ts {
+  font-size: 10px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  font-weight: 500;
+}
+
+/* ═══════ ANIMATIONS ═══════ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════ SCROLLBAR ═══════ */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.14); }
+
+/* ═══════ RESPONSIVE ═══════ */
+@media (max-width: 1100px) {
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .bottom-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .sidebar { display: none; }
+  .main { margin-left: 0; padding: 20px 16px; max-width: 100vw; }
+  .biz-grid { grid-template-columns: 1fr; }
+  .page-header { flex-direction: column; align-items: flex-start; }
+}
+@media (max-width: 480px) {
+  .stats-row { grid-template-columns: 1fr; }
+  .biz-footer { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<div class="ambient ambient-1"></div>
+<div class="ambient ambient-2"></div>
+
+<div class="layout">
+
+  <!-- ═══════ SIDEBAR ═══════ -->
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <!-- Logo -->
+      <div class="sidebar-logo">
+        <div class="logo-mark">
+          <div class="logo-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L12 14"/>
+              <path d="M7 9L12 14L17 9"/>
+              <circle cx="12" cy="19" r="1.5" fill="rgba(255,255,255,0.5)" stroke="none"/>
+              <circle cx="8" cy="21" r="1" fill="rgba(255,255,255,0.3)" stroke="none"/>
+              <circle cx="16" cy="21" r="1" fill="rgba(255,255,255,0.3)" stroke="none"/>
+            </svg>
+          </div>
+          <div class="logo-text">
+            <h1>Propulsa</h1>
+            <span>AI Agency</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="sidebar-nav">
+        <div class="nav-section">Principal</div>
+        <button class="nav-item active">
+          <span class="nav-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          </span>
+          Dashboard
+        </button>
+        <button class="nav-item">
+          <span class="nav-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M12 12h.01"/><path d="M17 12h.01"/><path d="M7 12h.01"/></svg>
+          </span>
+          Agentes AI
+          <span class="nav-badge">3</span>
+        </button>
+        <button class="nav-item">
+          <span class="nav-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+          </span>
+          Configuraci&oacute;n
+        </button>
+
+        <div class="nav-section">Negocios</div>
+        <button class="nav-item">
+          <span class="nav-emoji">📚</span>
+          Tesipedia
+        </button>
+        <button class="nav-item">
+          <span class="nav-emoji">💰</span>
+          Finance SCool
+        </button>
+        <button class="nav-item">
+          <span class="nav-emoji">🌮</span>
+          Taquer&iacute;a AI
+        </button>
+      </nav>
+
+      <!-- Footer -->
+      <div class="sidebar-footer">
+        <div class="user-block">
+          <div class="user-avatar">AS</div>
+          <div class="user-meta">
+            <h4>Arturo Su&aacute;rez</h4>
+            <span>Founder &amp; CEO</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ═══════ MAIN ═══════ -->
+  <main class="main">
+
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="page-header-text">
+        <h2>Dashboard</h2>
+        <p>Resumen general de Propulsa y todos tus negocios</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-ghost">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          Exportar
+        </button>
+        <button class="btn btn-primary">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Nuevo Negocio
+        </button>
+      </div>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-top">
+          <div class="stat-icon-box" style="background:rgba(99,102,241,0.1)">
+            <svg style="color:#6366f1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+          </div>
+          <span class="stat-trend up">+18.2%</span>
+        </div>
+        <div class="stat-value">$12.5k</div>
+        <div class="stat-label">Ingreso mensual</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-top">
+          <div class="stat-icon-box" style="background:rgba(16,185,129,0.1)">
+            <svg style="color:#10b981" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <span class="stat-trend neutral">3 negocios</span>
+        </div>
+        <div class="stat-value">$63.7k</div>
+        <div class="stat-label">Ingreso total acumulado</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-top">
+          <div class="stat-icon-box" style="background:rgba(6,182,212,0.1)">
+            <svg style="color:#06b6d4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <span class="stat-trend up">+12 este mes</span>
+        </div>
+        <div class="stat-value">245</div>
+        <div class="stat-label">Clientes totales</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-top">
+          <div class="stat-icon-box" style="background:rgba(245,158,11,0.1)">
+            <svg style="color:#f59e0b" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M12 12h.01"/><path d="M17 12h.01"/><path d="M7 12h.01"/></svg>
+          </div>
+        </div>
+        <div class="stat-value">1 <span style="font-size:16px;color:var(--text-muted);font-weight:500">/ 3</span></div>
+        <div class="stat-label">Agentes activos</div>
+      </div>
+    </div>
+
+    <!-- Section: Businesses -->
+    <div class="section-head">
+      <h3>Mis Negocios</h3>
+      <span class="section-link">Ver todos
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </span>
+    </div>
+
+    <div class="biz-grid">
+
+      <!-- Tesipedia -->
+      <div class="biz-card">
+        <div class="biz-card-accent" style="background:linear-gradient(90deg, #6366f1, #8b5cf6)"></div>
+        <div class="biz-card-body">
+          <div class="biz-top">
+            <div class="biz-icon">📚</div>
+            <span class="badge badge-active"><span class="badge-dot"></span>Activo</span>
+          </div>
+          <div class="biz-name">Tesipedia</div>
+          <div class="biz-desc">Plataforma de servicios acad&eacute;micos con escritores profesionales</div>
+          <div class="biz-footer">
+            <div class="biz-metric">
+              <div class="biz-metric-val" style="color:#818cf8">$8.2k</div>
+              <div class="biz-metric-lbl">Mensual</div>
+            </div>
+            <div class="biz-metric">
+              <div class="biz-metric-val">156</div>
+              <div class="biz-metric-lbl">Clientes</div>
+            </div>
+            <div class="biz-metric">
+              <div class="biz-metric-val" style="color:#10b981">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="none"><circle cx="12" cy="12" r="6"/></svg>
+                <span style="font-size:12px;vertical-align:middle;margin-left:3px">Activo</span>
+              </div>
+              <div class="biz-metric-lbl">Agente</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Finance SCool -->
+      <div class="biz-card">
+        <div class="biz-card-accent" style="background:linear-gradient(90deg, #059669, #10b981)"></div>
+        <div class="biz-card-body">
+          <div class="biz-top">
+            <div class="biz-icon">💰</div>
+            <span class="badge badge-active"><span class="badge-dot"></span>Activo</span>
+          </div>
+          <div class="biz-name">Finance SCool</div>
+          <div class="biz-desc">Escuela de finanzas personales y asesor&iacute;a financiera</div>
+          <div class="biz-footer">
+            <div class="biz-metric">
+              <div class="biz-metric-val" style="color:#10b981">$4.3k</div>
+              <div class="biz-metric-lbl">Mensual</div>
+            </div>
+            <div class="biz-metric">
+              <div class="biz-metric-val">89</div>
+              <div class="biz-metric-lbl">Clientes</div>
+            </div>
+            <div class="biz-metric">
+              <div class="biz-metric-val" style="color:#f59e0b">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 2v10l4 4"/></svg>
+                <span style="font-size:12px;vertical-align:middle;margin-left:3px">Dev</span>
+              </div>
+              <div class="biz-metric-lbl">Agente</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Taqueria -->
+      <div class="biz-card">
+        <div class="biz-card-accent" style="background:linear-gradient(90deg, #d97706, #f59e0b)"></div>
+        <div class="biz-card-body">
+          <div class="biz-top">
+            <div class="biz-icon">🌮</div>
+            <span class="badge badge-dev"><span class="badge-dot"></span>En desarrollo</span>
+          </div>
+          <div class="biz-name">Taquer&iacute;a AI</div>
+          <div class="biz-desc">Agente inteligente para taquer&iacute;a &mdash; pedidos, inventario y atenci&oacute;n al cliente</div>
+          <div class="biz-footer">
+            <div class="biz-metric">
+              <div class="biz-metric-val" style="color:var(--text-muted)">&mdash;</div>
+              <div class="biz-metric-lbl">Mensual</div>
+            </div>
+            <div class="biz-metric">
+              <div class="biz-metric-val" style="color:var(--text-muted)">&mdash;</div>
+              <div class="biz-metric-lbl">Clientes</div>
+            </div>
+            <div class="biz-metric">
+              <div class="biz-metric-val" style="color:#f59e0b">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 2v10l4 4"/></svg>
+                <span style="font-size:12px;vertical-align:middle;margin-left:3px">Plan</span>
+              </div>
+              <div class="biz-metric-lbl">Agente</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add New -->
+      <div class="add-card">
+        <div class="add-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <p>Agregar negocio</p>
+        <small>Restaurantes, tiendas, servicios&hellip;</small>
+      </div>
+    </div>
+
+    <!-- Bottom Grid: Chart + Activity -->
+    <div class="bottom-grid">
+
+      <!-- Revenue Chart -->
+      <div class="chart-panel">
+        <div class="chart-head">
+          <h4>Ingresos Mensuales</h4>
+          <div class="chart-legend">
+            <div class="chart-legend-item">
+              <div class="chart-legend-dot" style="background:var(--accent)"></div>
+              Tesipedia
+            </div>
+            <div class="chart-legend-item">
+              <div class="chart-legend-dot" style="background:var(--emerald)"></div>
+              Finance
+            </div>
+          </div>
+        </div>
+        <div class="chart-area">
+          <div class="chart-y-axis">
+            <div class="chart-y-label">$12k</div>
+            <div class="chart-y-label">$9k</div>
+            <div class="chart-y-label">$6k</div>
+            <div class="chart-y-label">$3k</div>
+            <div class="chart-y-label">$0</div>
+          </div>
+          <div class="chart-grid-lines">
+            <div class="chart-grid-line"></div>
+            <div class="chart-grid-line"></div>
+            <div class="chart-grid-line"></div>
+            <div class="chart-grid-line"></div>
+            <div class="chart-grid-line"></div>
+          </div>
+          <div class="chart-bars-container">
+            <div class="chart-bar-group">
+              <div class="chart-bar" data-value="$6.2k" style="height:36%;background:linear-gradient(180deg, #6366f1 0%, rgba(99,102,241,0.2) 100%)"></div>
+              <div class="chart-bar-label">Oct</div>
+            </div>
+            <div class="chart-bar-group">
+              <div class="chart-bar" data-value="$7.8k" style="height:46%;background:linear-gradient(180deg, #6366f1 0%, rgba(99,102,241,0.2) 100%)"></div>
+              <div class="chart-bar-label">Nov</div>
+            </div>
+            <div class="chart-bar-group">
+              <div class="chart-bar" data-value="$9.1k" style="height:56%;background:linear-gradient(180deg, #6366f1 0%, rgba(99,102,241,0.2) 100%)"></div>
+              <div class="chart-bar-label">Dic</div>
+            </div>
+            <div class="chart-bar-group">
+              <div class="chart-bar" data-value="$10.2k" style="height:68%;background:linear-gradient(180deg, #6366f1 30%, rgba(16,185,129,0.3) 100%)"></div>
+              <div class="chart-bar-label">Ene</div>
+            </div>
+            <div class="chart-bar-group">
+              <div class="chart-bar" data-value="$11.3k" style="height:82%;background:linear-gradient(180deg, #6366f1 30%, rgba(16,185,129,0.3) 100%)"></div>
+              <div class="chart-bar-label">Feb</div>
+            </div>
+            <div class="chart-bar-group">
+              <div class="chart-bar" data-value="$12.5k" style="height:100%;background:linear-gradient(180deg, #818cf8 0%, #6366f1 50%, rgba(16,185,129,0.4) 100%)"></div>
+              <div class="chart-bar-label">Mar</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Activity Feed -->
+      <div class="activity-panel">
+        <div class="activity-head">
+          <h4>Actividad Reciente</h4>
+          <span class="section-link" style="font-size:11px">Ver todo</span>
+        </div>
+        <div class="activity-list">
+          <div class="activity-row">
+            <div class="act-indicator success"></div>
+            <div class="act-body">
+              <span class="act-source">Tesipedia</span>
+              <span class="act-desc">Proyecto completado</span>
+            </div>
+            <span class="act-ts">2h</span>
+          </div>
+          <div class="activity-row">
+            <div class="act-indicator info"></div>
+            <div class="act-body">
+              <span class="act-source">Sofia AI</span>
+              <span class="act-desc">15 conversaciones hoy</span>
+            </div>
+            <span class="act-ts">3h</span>
+          </div>
+          <div class="activity-row">
+            <div class="act-indicator success"></div>
+            <div class="act-body">
+              <span class="act-source">Finance</span>
+              <span class="act-desc">Nuevo lead capturado</span>
+            </div>
+            <span class="act-ts">5h</span>
+          </div>
+          <div class="activity-row">
+            <div class="act-indicator warning"></div>
+            <div class="act-body">
+              <span class="act-source">Taquer&iacute;a</span>
+              <span class="act-desc">Dise&ntilde;o de agente iniciado</span>
+            </div>
+            <span class="act-ts">1d</span>
+          </div>
+          <div class="activity-row">
+            <div class="act-indicator info"></div>
+            <div class="act-body">
+              <span class="act-source">Finance</span>
+              <span class="act-desc">Sesi&oacute;n de asesor&iacute;a programada</span>
+            </div>
+            <span class="act-ts">1d</span>
+          </div>
+          <div class="activity-row">
+            <div class="act-indicator success"></div>
+            <div class="act-body">
+              <span class="act-source">Tesipedia</span>
+              <span class="act-desc">Pago $3,500 recibido</span>
+            </div>
+            <span class="act-ts">2d</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+</body>
+</html>
